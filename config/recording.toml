@@ -1,0 +1,22 @@
+[recording]
+# RECで、認識枠付きAVIに加えて枠なし映像＋音声を保存する。
+raw_enabled = true
+
+# M5Stackの通常画面をPi側で再現した320x240・4 FPSのAVI（音声なし）。
+display_enabled = true
+
+# h264: 録画中にH.264＋AACへ圧縮してMP4保存。
+# copy: 再エンコードなしのMJPEG＋PCMをMKV保存（容量大）。
+video_codec = "h264"
+video_crf = 26
+encoding_threads = 2
+
+# 撮影と枠なし録画の解像度。1280x720 / 1920x1080。
+width = 1280
+height = 720
+camera_fps = 30
+
+# arecord -l で確認したカメラ内蔵マイク。カード番号でなく名前で指定する。
+audio_device = "plughw:CARD=Camera,DEV=0"
+audio_rate = 48000
+audio_channels = 1

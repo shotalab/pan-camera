@@ -1,0 +1,8 @@
+PAN-CAMERA
+Copyright (C) 2026 PAN-CAMERA contributors
+SPDX-License-Identifier: AGPL-3.0-only
+
+Original project source code, configuration, documentation and SVG diagrams are licensed
+under the GNU Affero General Public License, version 3 only.
+Third-party code, dependencies and pretrained model weights retain their
+respective copyright notices and licenses. See THIRD_PARTY_NOTICES.md.

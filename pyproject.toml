@@ -1,0 +1,31 @@
+[project]
+name = "pan-camera"
+version = "0.1.0"
+description = "Visual target tracking camera with Raspberry Pi and M5Stack"
+readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "licenses/*"]
+requires-python = ">=3.11"
+dependencies = [
+    "lap==0.5.13",
+    "numpy>=2,<3",
+    "opencv-python-headless>=4.10,<5",
+    "torch>=2.15.0",
+    "torchvision>=0.29.2",
+    "ultralytics>=8.4.197",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["apps/pi/src"]

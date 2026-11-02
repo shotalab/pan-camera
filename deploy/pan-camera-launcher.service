@@ -1,0 +1,19 @@
+[Unit]
+Description=PAN-CAMERA M5Stack application launcher
+Wants=network-online.target
+After=network-online.target pan-camera-pwm.service
+Requires=pan-camera-pwm.service
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PROJECT_ROOT@
+ExecStart=@PROJECT_ROOT@/.venv/bin/python -u -m pan_camera.launcher
+Restart=on-failure
+RestartSec=3
+KillSignal=SIGINT
+KillMode=mixed
+TimeoutStopSec=45
+
+[Install]
+WantedBy=multi-user.target

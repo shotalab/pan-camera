@@ -1,0 +1,16 @@
+[servo]
+gpio = 18
+pwm_controller = "1f00098000.pwm"
+pwm_channel = 2
+frequency_hz = 50
+
+right_us = 800
+center_us = 1500
+left_us = 2200
+
+step_us = 10
+step_interval_s = 0.02
+
+# 追尾・中央復帰の指令速度と加速度。実際の角速度ではない。
+max_speed_us_per_s = 900.0
+acceleration_us_per_s2 = 2700.0

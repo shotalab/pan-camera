@@ -1,0 +1,27 @@
+# Python environments and generated metadata
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+firmware/m5stack/include/wifi_secrets.h
+
+# Recordings, temporary previews and PlatformIO builds
+outputs/
+.pio/
+.lgd-nfy*
+*.bak
+*.log
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/

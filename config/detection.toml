@@ -1,0 +1,104 @@
+# --classes を指定しない場合の検出対象。true=ON、false=OFF。
+# 変更後はPiプログラムを再起動。CLI指定はこの設定全体を上書きし、ファイルは変更しない。
+# コメントの数字は学習済みモデルのクラスID。
+[classes]
+
+# 人物・乗り物
+"person" = false  # 0
+"bicycle" = false  # 1
+"car" = false  # 2
+"motorcycle" = false  # 3
+"airplane" = false  # 4
+"bus" = false  # 5
+"train" = false  # 6
+"truck" = false  # 7
+"boat" = false  # 8
+
+# 屋外設備
+"traffic light" = false  # 9
+"fire hydrant" = false  # 10
+"stop sign" = false  # 11
+"parking meter" = false  # 12
+"bench" = false  # 13
+
+# 動物
+"bird" = false  # 14
+"cat" = false  # 15
+"dog" = false  # 16
+"horse" = false  # 17
+"sheep" = false  # 18
+"cow" = false  # 19
+"elephant" = false  # 20
+"bear" = false  # 21
+"zebra" = false  # 22
+"giraffe" = false  # 23
+
+# バッグ・身に付けるもの
+"backpack" = false  # 24
+"umbrella" = false  # 25
+"handbag" = false  # 26
+"tie" = false  # 27
+"suitcase" = false  # 28
+
+# スポーツ・レジャー
+"frisbee" = false  # 29
+"skis" = false  # 30
+"snowboard" = false  # 31
+"sports ball" = false  # 32
+"kite" = false  # 33
+"baseball bat" = false  # 34
+"baseball glove" = false  # 35
+"skateboard" = false  # 36
+"surfboard" = false  # 37
+"tennis racket" = false  # 38
+
+# 容器・食器
+"bottle" = false  # 39
+"wine glass" = false  # 40
+"cup" = true  # 41
+"fork" = false  # 42
+"knife" = false  # 43
+"spoon" = false  # 44
+"bowl" = false  # 45
+
+# 食べ物
+"banana" = false  # 46
+"apple" = false  # 47
+"sandwich" = false  # 48
+"orange" = false  # 49
+"broccoli" = false  # 50
+"carrot" = false  # 51
+"hot dog" = false  # 52
+"pizza" = false  # 53
+"donut" = false  # 54
+"cake" = false  # 55
+
+# 家具・設備
+"chair" = false  # 56
+"couch" = false  # 57
+"potted plant" = false  # 58
+"bed" = false  # 59
+"dining table" = false  # 60
+"toilet" = false  # 61
+
+# 電化製品・電子機器
+"tv" = false  # 62
+"laptop" = false  # 63
+"mouse" = false  # 64
+"remote" = false  # 65
+"keyboard" = false  # 66
+"cell phone" = false  # 67
+"microwave" = false  # 68
+"oven" = false  # 69
+"toaster" = false  # 70
+"sink" = false  # 71
+"refrigerator" = false  # 72
+
+# その他の日用品
+"book" = false  # 73
+"clock" = false  # 74
+"vase" = false  # 75
+"scissors" = false  # 76
+"teddy bear" = false  # 77
+"hair drier" = false  # 78
+"toothbrush" = false  # 79

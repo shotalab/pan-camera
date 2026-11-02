@@ -1,0 +1,10 @@
+[Unit]
+Description=PAN-CAMERA hardware PWM setup
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh @PROJECT_ROOT@/scripts/setup_hardware_pwm.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

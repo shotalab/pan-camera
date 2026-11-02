@@ -1,0 +1,109 @@
+<!doctype html><html lang="ja"><!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAN-CAMERA 動画タイトル</title><style>
+body{max-width:1120px;margin:40px auto;padding:0 24px;background:#e6eae5;color:#19343e;font-family:'Noto Sans CJK JP',sans-serif}h1{font-size:28px}p{line-height:1.8}h2{font-size:16px}section{margin:32px 0}svg{width:100%;height:auto;border-radius:10px}button{padding:10px 24px;border:0;border-radius:5px;background:#167d78;color:white;cursor:pointer}
+</style><h1>PAN-CAMERA · 動画タイトル</h1><p>3840×2160 / 30 FPS。冒頭・エンディング各4秒、章タイトル各1.5秒。動画は outputs/video-titles/ の同名MP4をFinal Cut Proへ読み込む。すべて入れると実演93秒＋タイトル14秒＝約1分47秒。</p>
+<section data-duration="4.0"><h2>00_title · 4.0秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="615" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">PHYSICAL AI · FINAL PROJECT</text>
+<text x="220" y="890" font-size="224" font-weight="700" letter-spacing="-5">PAN-CAMERA</text>
+<text x="235" y="1060" font-size="66" font-weight="500">選んだ被写体を、画面の中央へ。</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">YOLO × Raspberry Pi × M5Stack</text>
+</g><g transform="translate(2770 660)" stroke="#167d78" fill="none" stroke-width="10">
+    <path d="M0 170V0H170 M470 0H640V170 M640 470V640H470 M170 640H0V470"/>
+    <path d="M160 220H440L410 470Q300 530 190 470Z" fill="#e3eeE7" stroke="none"/>
+    <ellipse cx="300" cy="220" rx="140" ry="35" fill="#c1d9ce" stroke="none"/>
+    <path d="M440 260H490Q545 320 460 380" stroke-width="22"/>
+    <path d="M300 -70l-16 -26h32Z M300 710l-16 26h32Z" fill="#167d78" stroke="none"/>
+    </g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section>
+<section data-duration="1.5"><h2>01_remote · 1.5秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="720" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">CONTROL</text>
+<text x="220" y="990" font-size="148" font-weight="700" letter-spacing="-5">選ぶ。追う。記録する。</text>
+<text x="235" y="1150" font-size="66" font-weight="500">M5Stackから起動・対象選択・録画</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">PAN-CAMERA / 操作と追尾</text>
+</g><g transform="translate(3210 820)" stroke="#167d78" fill="none" stroke-width="8" opacity=".5">
+    <path d="M0 90V0H90 M230 0H320V90 M320 230V320H230 M90 320H0V230"/>
+    <circle cx="160" cy="160" r="10" fill="#167d78" stroke="none"/></g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section>
+<section data-duration="1.5"><h2>02_recording · 1.5秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="720" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">RECORDING</text>
+<text x="220" y="990" font-size="148" font-weight="700" letter-spacing="-5">カメラが捉えた映像</text>
+<text x="235" y="1150" font-size="66" font-weight="500">Piで録画した720p映像</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">PAN-CAMERA / 録画結果</text>
+</g><g transform="translate(3210 820)" stroke="#167d78" fill="none" stroke-width="8" opacity=".5">
+    <path d="M0 90V0H90 M230 0H320V90 M320 230V320H230 M90 320H0V230"/>
+    <circle cx="160" cy="160" r="10" fill="#167d78" stroke="none"/></g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section>
+<section data-duration="1.5"><h2>03_servo · 1.5秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="720" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">MOTION</text>
+<text x="220" y="990" font-size="148" font-weight="700" letter-spacing="-5">滑らかに、向きを変える。</text>
+<text x="235" y="1150" font-size="66" font-weight="500">サーボによる左右の自動旋回</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">PAN-CAMERA / 旋回機構</text>
+</g><g transform="translate(3210 820)" stroke="#167d78" fill="none" stroke-width="8" opacity=".5">
+    <path d="M0 90V0H90 M230 0H320V90 M320 230V320H230 M90 320H0V230"/>
+    <circle cx="160" cy="160" r="10" fill="#167d78" stroke="none"/></g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section>
+<section data-duration="1.5"><h2>04_switch · 1.5秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="720" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">TARGET SELECTION</text>
+<text x="220" y="990" font-size="148" font-weight="700" letter-spacing="-5">追う相手を、切り替える。</text>
+<text x="235" y="1150" font-size="66" font-weight="500">2つのコップから選択した対象を中央へ</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">PAN-CAMERA / 対象の切り替え</text>
+</g><g transform="translate(3210 820)" stroke="#167d78" fill="none" stroke-width="8" opacity=".5">
+    <path d="M0 90V0H90 M230 0H320V90 M320 230V320H230 M90 320H0V230"/>
+    <circle cx="160" cy="160" r="10" fill="#167d78" stroke="none"/></g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section>
+<section data-duration="4.0"><h2>05_ending · 4.0秒</h2><svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<rect width="3840" height="2160" fill="#f5f4ee"/>
+<path d="M230 250H3610 M230 1860H3610" stroke="#d0ded5" stroke-width="3"/>
+<g data-reveal="1" opacity="1.00000" transform="translate(0.000 0)">
+<g font-family="Noto Sans CJK JP, Noto Sans JP, sans-serif" fill="#19343e">
+<text x="235" y="615" font-size="42" font-weight="600" letter-spacing="9" fill="#167d78">THANK YOU FOR WATCHING</text>
+<text x="220" y="890" font-size="224" font-weight="700" letter-spacing="-5">PAN-CAMERA</text>
+<text x="235" y="1060" font-size="66" font-weight="500">見て、選んで、追いかける。</text>
+<text x="235" y="1765" font-size="40" fill="#5e7177" letter-spacing="2">YOLO × Raspberry Pi × M5Stack</text>
+</g><g transform="translate(2770 660)" stroke="#167d78" fill="none" stroke-width="10">
+    <path d="M0 170V0H170 M470 0H640V170 M640 470V640H470 M170 640H0V470"/>
+    <path d="M160 220H440L410 470Q300 530 190 470Z" fill="#e3eeE7" stroke="none"/>
+    <ellipse cx="300" cy="220" rx="140" ry="35" fill="#c1d9ce" stroke="none"/>
+    <path d="M440 260H490Q545 320 460 380" stroke-width="22"/>
+    <path d="M300 -70l-16 -26h32Z M300 710l-16 26h32Z" fill="#167d78" stroke="none"/>
+    </g></g>
+<rect data-progress="1" x="230" y="1857" width="1400.00" height="6" fill="#167d78"/>
+</svg><button onclick="play(this.parentNode)">再生</button></section><script>
+function play(section){
+const duration=Number(section.dataset.duration),start=performance.now(),g=section.querySelector('[data-reveal]'),bar=section.querySelector('[data-progress]');
+if(section._raf)cancelAnimationFrame(section._raf);
+function tick(now){const t=(now-start)/1000,p=Math.min(1,Math.max(0,t/.5)),r=1-Math.pow(1-Math.min(1,Math.max(0,t/.4)),3),opacity=Math.min(r,Math.max(0,(duration-t)/.2));g.setAttribute('opacity',opacity);g.setAttribute('transform',`translate(${(1-r)*60} 0)`);bar.setAttribute('width',p*1400);if(t<duration)section._raf=requestAnimationFrame(tick);}
+section._raf=requestAnimationFrame(tick);}
+</script></html>

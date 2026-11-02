@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+# Based on ultralytics/cfg/trackers/bytetrack.yaml (8.4.197).
+# Modified for PAN-CAMERA: new_track_thresh, track_buffer, match_thresh.
+
+tracker_type: bytetrack
+
+track_high_thresh: 0.25
+track_low_thresh: 0.10
+
+# 第1段階の照合には0.25以上、第2段階には0.10以上を使う。
+# 新規IDは0.50以上の検出から作り、弱い検出によるID増加を抑える。
+new_track_thresh: 0.50
+
+# 見失った ID を60追跡フレーム保持（13 FPSなら約4.6秒）。
+# 再検出時の対応付けが成立すれば、元のIDへ復帰する。
+track_buffer: 60
+# 対応付けの許容コストを少し広げ、元のIDへの復帰を優先する。
+match_thresh: 0.85
+fuse_score: True

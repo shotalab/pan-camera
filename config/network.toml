@@ -1,0 +1,5 @@
+[network]
+m5stack_ip = "192.168.0.115"
+video_port = 5005
+control_port = 5006
+launcher_port = 5007

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="530" viewBox="0 0 1040 530" role="img" aria-labelledby="pan-mechanism-title pan-mechanism-desc">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<title id="pan-mechanism-title">動くのはカメラ、支えるのは台座</title><desc id="pan-mechanism-desc">提供された完成品写真を参考にした寸法を持たない概念図。カメラと取り付け部がサーボ軸で旋回し、サーボ本体は瓶の台座上に固定される。</desc><defs><marker id="pan-mechanism-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0 8 4 0 8Z" fill="#167d78"/></marker><marker id="pan-mechanism-powerArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#b75b30"/></marker><style>text{font-family:'Noto Sans CJK JP','Noto Sans JP',sans-serif;fill:#19343e}.title{font-size:25px;font-weight:700}.sub{font-size:14px;fill:#65777d}.label{font-size:18px;font-weight:700}.small{font-size:14px}.card{fill:#fff;stroke:#d1dfd9;stroke-width:1.5}.flow{fill:none;stroke:#167d78;stroke-width:2.5;marker-end:url(#pan-mechanism-arrow)}.power{fill:none;stroke:#b75b30;stroke-width:3;marker-end:url(#pan-mechanism-powerArrow)}.ground{fill:none;stroke:#4b5b67;stroke-width:3}.guide{fill:none;stroke:#9badb0;stroke-width:1.5;stroke-dasharray:5 5}</style></defs><rect width="1040" height="530" rx="16" fill="#f5f4ee"/>
+<text x="30" y="44" class="title">カメラだけを回す、左右1軸の機構。</text><text x="30" y="71" class="sub">完成品写真を参考にした概念図。寸法・取り付け方法の厳密な再現ではない。</text>
+<rect x="92" y="103" width="385" height="365" rx="16" fill="#e7efea"/>
+<rect x="187" y="323" width="194" height="112" rx="18" fill="#ffffff" stroke="#9baea5" stroke-width="2"/>
+<path d="M202 350H366 M202 411H366" class="guide"/>
+<rect x="175" y="306" width="218" height="23" rx="8" fill="#ccaf68" stroke="#8b783f"/>
+<rect x="226" y="243" width="118" height="64" rx="6" fill="#536aa9" stroke="#324a80" stroke-width="2"/><text x="254" y="282" class="label" style="fill:white">SG90</text>
+<rect x="266" y="214" width="38" height="31" rx="3" fill="#c9d5d0" stroke="#738b8c" stroke-width="2"/>
+<path d="M219 213H350" stroke="#a6afb0" stroke-width="8"/>
+<rect x="216" y="124" width="139" height="91" rx="6" fill="#b48b49" stroke="#7e6438" stroke-width="2"/>
+<rect x="226" y="169" width="121" height="42" rx="3" fill="#f0e7d8"/>
+<circle cx="285" cy="164" r="34" fill="#172e36"/><circle cx="285" cy="164" r="21" fill="#355362"/><circle cx="285" cy="164" r="10" fill="#112229"/>
+<path d="M228 104C263 82 322 82 354 104" class="flow"/><text x="147" y="127" class="sub">PAN</text>
+<path d="M355 165H535" class="flow"/><text x="558" y="157" class="label">回転側：カメラと取り付け部</text><text x="558" y="185" class="small">YOLOで見つけた対象に向けて左右に旋回</text>
+<path d="M345 275H535" class="flow"/><text x="558" y="267" class="label">固定側：サーボ本体</text><text x="558" y="295" class="small">軸の向きを制御し、カメラを支える</text>
+<path d="M384 374H535" class="flow"/><text x="558" y="366" class="label">固定側：瓶を使った台座</text><text x="558" y="394" class="small">Pi・電源・M5Stackは回転軸に載せない</text>
+<text x="92" y="499" class="sub">カメラのUSBケーブルには、左右の動きに追従できる余裕を確保する。</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="410" viewBox="0 0 1040 410" role="img" aria-labelledby="architecture-title architecture-desc">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<title id="architecture-title">PAN-CAMERAのシステム構成</title><desc id="architecture-desc">USBカメラからPiへ画像を取得し、認識・追尾・録画を行う。PiはGPIO18からサーボを制御し、M5StackとWi-Fi UDPで映像・状態・操作をやり取りする。</desc><defs><marker id="architecture-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0 8 4 0 8Z" fill="#167d78"/></marker><marker id="architecture-powerArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#b75b30"/></marker><style>text{font-family:'Noto Sans CJK JP','Noto Sans JP',sans-serif;fill:#19343e}.title{font-size:25px;font-weight:700}.sub{font-size:14px;fill:#65777d}.label{font-size:18px;font-weight:700}.small{font-size:14px}.card{fill:#fff;stroke:#d1dfd9;stroke-width:1.5}.flow{fill:none;stroke:#167d78;stroke-width:2.5;marker-end:url(#architecture-arrow)}.power{fill:none;stroke:#b75b30;stroke-width:3;marker-end:url(#architecture-powerArrow)}.ground{fill:none;stroke:#4b5b67;stroke-width:3}.guide{fill:none;stroke:#9badb0;stroke-width:1.5;stroke-dasharray:5 5}</style></defs><rect width="1040" height="410" rx="16" fill="#f5f4ee"/>
+<text x="30" y="44" class="title">PAN-CAMERA のシステム構成</text>
+<text x="30" y="71" class="sub">Piで認識・制御・録画。M5Stackから無線で見る・選ぶ・操作する。</text>
+<rect x="32" y="124" width="180" height="100" rx="12" class="card"/>
+<text x="52" y="156" class="label">USBカメラ</text><text x="52" y="181" class="small">1280×720 / MJPEG</text><text x="52" y="202" class="sub">最新フレームを取得</text>
+<rect x="310" y="102" width="340" height="148" rx="12" class="card"/>
+<text x="332" y="134" class="label">Raspberry Pi 5</text><text x="332" y="163" class="small">YOLO26n + ByteTrack</text><text x="332" y="190" class="small">対象選択・追尾制御・録画</text><text x="332" y="220" class="sub">JPEG映像と状態を送信・操作を受信</text>
+<rect x="760" y="124" width="246" height="100" rx="12" class="card"/>
+<text x="780" y="156" class="label">M5Stack BASIC</text><text x="780" y="181" class="small">プレビュー・状態表示</text><text x="780" y="205" class="sub">選択 / 追尾・停止 / 録画</text>
+<path d="M218 171H300" class="flow"/><text x="230" y="158" class="sub">USB</text>
+<path d="M660 164H750" class="flow"/><path d="M750 196H660" class="flow"/><text x="662" y="141" class="sub">Wi-Fi / UDP</text>
+<rect x="310" y="306" width="340" height="76" rx="12" class="card"/>
+<text x="332" y="337" class="label">SG90 / 左右1軸の旋回</text><text x="332" y="363" class="sub">GPIO18・外部5 V電源・共通GND</text>
+<path d="M480 260V296" class="flow"/><text x="495" y="283" class="sub">50 Hz PWM</text>
+<path d="M300 344H120V234" class="flow"/><text x="139" y="280" class="sub">カメラを旋回</text>
+</svg>

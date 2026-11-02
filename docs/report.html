@@ -1,0 +1,112 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="PAN-CAMERA：Physical AI応用1 最終課題。YOLOの学習済みモデルを使った左右1軸の自動追尾カメラ。目的、実装上の工夫、検証結果をまとめた提出資料。">
+<title>PAN-CAMERA｜Physical AI応用1 最終課題</title>
+<style>
+:root{--ink:#19343e;--muted:#5e7177;--accent:#167d78;--paper:#fffefa;--wash:#eff4ef;--line:#d4dfd8;--warm:#f5f4ee}
+*{box-sizing:border-box}
+body{margin:0;background:#dce3df;color:var(--ink);font-family:'Noto Sans CJK JP','Hiragino Sans','Yu Gothic',sans-serif;font-size:10.5pt;line-height:1.85;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toolbar{max-width:210mm;margin:18px auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:12px}
+.toolbar button{background:var(--accent);border:0;border-radius:6px;color:white;padding:10px 20px;font:inherit;cursor:pointer}
+.sheet{width:210mm;height:297mm;padding:15mm 17mm 16mm;margin:0 auto 18px;background:var(--paper);position:relative;box-shadow:0 4px 28px #19343e16;break-after:page}
+.sheet:last-child{break-after:auto}
+.eyebrow{font-size:8pt;letter-spacing:.11em;font-weight:700;color:var(--accent);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:3mm;margin-bottom:6mm}
+h1,h2,h3,p,figure{margin:0}
+h1{font-size:38pt;letter-spacing:-.045em;line-height:1.1;margin-bottom:3mm}
+.tagline{font-size:18pt;line-height:1.6;font-weight:700;letter-spacing:.015em}
+.lead{font-size:10.5pt;line-height:1.95;margin-top:4mm}
+h2{font-size:22pt;letter-spacing:-.025em;line-height:1.4;margin-bottom:4mm}
+h3{font-size:11pt;line-height:1.6;margin-bottom:2mm}
+.section-label{font-size:8pt;letter-spacing:.12em;font-weight:700;color:var(--accent);margin-bottom:2mm}
+.block{margin-top:5mm}
+.diagram{margin:5mm 0 0}
+.diagram svg{display:block;width:100%;height:auto}
+.caption{font-size:8pt;color:var(--muted);margin-top:1.5mm;line-height:1.65}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5mm}
+.card{border:1px solid var(--line);border-radius:3mm;padding:4mm;background:white}
+.card.soft{background:var(--wash);border:0}
+.card .num{font-size:8pt;color:var(--accent);letter-spacing:.1em;display:block;font-weight:700;margin-bottom:1mm}
+.card p{font-size:10pt;line-height:1.85}
+.summary{border-left:3px solid var(--accent);padding:1mm 0 1mm 4mm;margin-top:4mm;font-size:10pt}
+.table{width:100%;border-collapse:collapse;font-size:10pt;line-height:1.65}
+.table th,.table td{padding:2.1mm 2.5mm;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.table th{font-weight:700;background:var(--wash)}
+.table td:first-child{font-weight:600;white-space:nowrap}
+.note{font-size:8pt;color:var(--muted);line-height:1.75;margin-top:2mm}
+.feature-line{display:flex;gap:2mm;margin-top:4mm}
+.pill{font-size:8pt;color:var(--accent);background:var(--wash);padding:1mm 3mm;border-radius:10mm;border:1px solid #d4e5dc}
+.footer{position:absolute;bottom:8mm;left:17mm;right:17mm;border-top:1px solid var(--line);padding-top:2mm;display:flex;justify-content:space-between;font-size:7pt;color:var(--muted);letter-spacing:.04em}
+.compact{margin-top:4mm}
+.sheet:nth-child(2) .card{padding:3.5mm}
+.bullets{margin:0;padding-left:1.3em;font-size:9pt;line-height:1.9}
+.refs{font-size:7.5pt;line-height:1.8;margin-top:3mm;color:var(--muted)}
+a{color:var(--accent);text-decoration:none;overflow-wrap:anywhere}
+code{font-family:'DejaVu Sans Mono',monospace;font-size:.9em}
+@page{size:A4;margin:0}
+@media print{body{background:white}.toolbar{display:none}.sheet{margin:0;box-shadow:none}a{color:inherit}}
+@media screen and (max-width:820px){.toolbar{margin:8px;width:calc(100% - 16px)}body{overflow-x:auto}.sheet{margin-left:auto;margin-right:auto}}
+</style>
+</head>
+<body>
+<div class="toolbar"><span>A4・全2ページ／背景グラフィックON・ヘッダーとフッターOFFで印刷</span><button type="button" onclick="window.print()">PDFとして保存</button></div>
+<main>
+<section class="sheet" aria-label="目的と全体構成">
+<div class="eyebrow"><span>PHYSICAL AI 応用1 · FINAL PROJECT</span><span>2026.11.02</span></div>
+<h1>PAN-CAMERA</h1>
+<p class="tagline">選んだ被写体を、画面の中央へ。</p>
+<p class="lead">YOLOの学習済みモデルで被写体を認識し、サーボでUSBカメラを左右に動かす自動追尾カメラを制作した。M5Stackの画面を見ながら、対象の選択・追尾・録画を操作できる。</p>
+<div class="summary"><strong>目的：</strong>撮影中にカメラの向きを手で調整する負担を減らす。自分を撮影するときのフレーミング補助や、動く物体を中央に捉えて記録する用途を想定した。</div>
+<figure class="diagram"><svg xmlns="http://www.w3.org/2000/svg" width="1040" height="410" viewBox="0 0 1040 410" role="img" aria-labelledby="architecture-title architecture-desc">
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<title id="architecture-title">PAN-CAMERAのシステム構成</title><desc id="architecture-desc">USBカメラからPiへ画像を取得し、認識・追尾・録画を行う。PiはGPIO18からサーボを制御し、M5StackとWi-Fi UDPで映像・状態・操作をやり取りする。</desc><defs><marker id="architecture-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0 8 4 0 8Z" fill="#167d78"/></marker><marker id="architecture-powerArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#b75b30"/></marker><style>text{font-family:'Noto Sans CJK JP','Noto Sans JP',sans-serif;fill:#19343e}.title{font-size:25px;font-weight:700}.sub{font-size:14px;fill:#65777d}.label{font-size:18px;font-weight:700}.small{font-size:14px}.card{fill:#fff;stroke:#d1dfd9;stroke-width:1.5}.flow{fill:none;stroke:#167d78;stroke-width:2.5;marker-end:url(#architecture-arrow)}.power{fill:none;stroke:#b75b30;stroke-width:3;marker-end:url(#architecture-powerArrow)}.ground{fill:none;stroke:#4b5b67;stroke-width:3}.guide{fill:none;stroke:#9badb0;stroke-width:1.5;stroke-dasharray:5 5}</style></defs><rect width="1040" height="410" rx="16" fill="#f5f4ee"/>
+<text x="30" y="44" class="title">PAN-CAMERA のシステム構成</text>
+<text x="30" y="71" class="sub">Piで認識・制御・録画。M5Stackから無線で見る・選ぶ・操作する。</text>
+<rect x="32" y="124" width="180" height="100" rx="12" class="card"/>
+<text x="52" y="156" class="label">USBカメラ</text><text x="52" y="181" class="small">1280×720 / MJPEG</text><text x="52" y="202" class="sub">最新フレームを取得</text>
+<rect x="310" y="102" width="340" height="148" rx="12" class="card"/>
+<text x="332" y="134" class="label">Raspberry Pi 5</text><text x="332" y="163" class="small">YOLO26n + ByteTrack</text><text x="332" y="190" class="small">対象選択・追尾制御・録画</text><text x="332" y="220" class="sub">JPEG映像と状態を送信・操作を受信</text>
+<rect x="760" y="124" width="246" height="100" rx="12" class="card"/>
+<text x="780" y="156" class="label">M5Stack BASIC</text><text x="780" y="181" class="small">プレビュー・状態表示</text><text x="780" y="205" class="sub">選択 / 追尾・停止 / 録画</text>
+<path d="M218 171H300" class="flow"/><text x="230" y="158" class="sub">USB</text>
+<path d="M660 164H750" class="flow"/><path d="M750 196H660" class="flow"/><text x="662" y="141" class="sub">Wi-Fi / UDP</text>
+<rect x="310" y="306" width="340" height="76" rx="12" class="card"/>
+<text x="332" y="337" class="label">SG90 / 左右1軸の旋回</text><text x="332" y="363" class="sub">GPIO18・外部5 V電源・共通GND</text>
+<path d="M480 260V296" class="flow"/><text x="495" y="283" class="sub">50 Hz PWM</text>
+<path d="M300 344H120V234" class="flow"/><text x="139" y="280" class="sub">カメラを旋回</text>
+</svg><figcaption class="caption">カメラ画像で対象の位置を調べ、向きを補正し、その結果を次の画像で確認する。</figcaption></figure>
+<div class="block"><h3>認識から追尾までの流れ</h3><p>YOLO26nで対象を検出し、ByteTrackで対象ごとのIDを管理する。選択した対象の中心と画像中心のずれから、カメラの向きを補正する。標準はコップで、設定を変えると人物なども検出できる。追加学習は行っていない。</p></div>
+<div class="block"><h3>主な構成</h3>
+<table class="table"><tbody>
+<tr><th scope="row">認識・制御</th><td>Raspberry Pi 5 / 8 GB、Debian 12、Python</td></tr>
+<tr><th scope="row">撮影・旋回</th><td>Arducam 12MP USB Camera、SG90サーボ</td></tr>
+<tr><th scope="row">操作・電源</th><td>M5Stack BASIC、サーボ用外部5 V電源<br>MOT-MB10001-BKの低電流モードを使用し、PiとGNDを共通化</td></tr>
+<tr><th scope="row">ソフトウェア</th><td>Ultralytics、PyTorch、OpenCV、FFmpeg、M5Unified</td></tr>
+</tbody></table></div>
+<div class="footer"><span>PAN-CAMERA · 目的と全体構成</span><span>01 / 02</span></div>
+</section>
+<section class="sheet" aria-label="工夫と動作結果">
+<div class="eyebrow"><span>PAN-CAMERA · DESIGN & RESULTS</span><span>工夫と動作結果</span></div>
+<h2>追尾の工夫と、実機での結果。</h2>
+<div class="block"><h3>工夫した点</h3>
+<article class="card"><h3>古い画像を溜めずに処理する</h3><p>撮影を推論と別のスレッドで動かし、最新の画像を使う。過去の画像が溜まって、カメラの反応が遅れることを抑えた。</p></article>
+<article class="card compact"><h3>大きなずれは速く、小さなずれは細かく</h3><p>対象と画面中央のずれに応じて補正量を変える。サーボの更新も推論から分け、速度と加速度を制限して急な動きを抑えた。</p></article>
+<article class="card compact"><h3>追尾を止めても、その位置を保持する</h3><p>停止や対象切り替え時はサーボの指令を維持する。対象を見失った場合も位置を保持し、カメラ切断時には録画を閉じてアプリを終了する。</p></article>
+</div>
+<div class="block"><h3>動作結果</h3><p>複数のコップから対象を選び、左右に動くコップへカメラが追従することを実機で確認した。停止時の位置保持で急な動きが改善し、撮影・サーボ移動を非同期化した後は追尾の応答も改善した。</p><p class="note">エラー時の終了処理などは、モック・生成映像を使った自動テストでも確認した。</p></div>
+<div class="block"><h3>録画できる映像</h3>
+<table class="table compact"><thead><tr><th>RECで保存する映像</th><th>用途</th></tr></thead><tbody>
+<tr><td>認識枠付きAVI</td><td>検出と対象選択の確認</td></tr>
+<tr><td>M5Stack画面の再現AVI</td><td>Pi側で再現した画面・状態の記録</td></tr>
+<tr><td>枠なし映像＋音声MP4</td><td>カメラ内蔵マイクを使った通常の撮影</td></tr>
+</tbody></table></div>
+<div class="block"><h3>今後の課題</h3><p>遮蔽後に対象のIDが変わる場合がある。再識別や移動予測を改善し、音声同期と長時間運転の安定性も検証したい。</p></div>
+<div class="refs"><strong>出典・ライセンス</strong>　<a href="https://docs.ultralytics.com/models/yolo26/">YOLO26n</a>・ByteTrackはUltralyticsの実装を使用。独自コード・文書・図はAGPL-3.0-only。第三者の条件は公開コードの THIRD_PARTY_NOTICES.md に記載。</div>
+<div class="footer"><span>PAN-CAMERA · 工夫と動作結果</span><span>02 / 02</span></div>
+</section>
+</main>
+</body>
+</html>
