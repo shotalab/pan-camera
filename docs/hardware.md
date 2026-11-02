@@ -1,5 +1,9 @@
 # ハードウェアと環境
 
+## 対応するPiとOS
+
+この実装のPWMはRaspberry Pi 5のRP1・GPIO18専用です。64 bit OS（`uname -m` が `aarch64`）、Python 3.11、RP1用PWMドライバーが必要です。Pi 4以前や32 bit OSでの動作は対象にしていません。別のPi 5で再現する場合も、カメラ・マイクの識別名、ユーザー権限、ネットワーク、サーボ校正を確認します。
+
 ## 機材
 
 | 項目 | 使用機材 |
@@ -48,7 +52,7 @@
 
 ## カメラ内蔵マイク
 
-`arecord -l` で、カード名 `Camera`（Arducam 12MP USB Camera）、デバイス0の `USB Audio` を確認しています。録音入力は `plughw:CARD=Camera,DEV=0` として設定します。デバイスの列挙確認と、実際の録音・同期の確認は別です。
+`arecord -l` で、カード名 `Camera`（Arducam 12MP USB Camera）、デバイス0の `USB Audio` を確認しています。録音入力は `plughw:CARD=Camera,DEV=0` として設定します。別のマイクでは `config/recording.toml` の `audio_device` を `arecord -l` の結果に合わせます。マイクがない場合は `raw_enabled = false` で枠なし映像＋音声を無効にできます。デバイスの列挙確認と、実際の録音・同期の確認は別です。
 
 ## カメラとサーボの取り付け
 
@@ -94,6 +98,13 @@
 ```ini
 [all]
 dtoverlay=pwm
+```
+
+実行ユーザーにPWM・カメラ・マイク・USBシリアルの権限を付けます。新しくグループを追加したら、再ログインまたは再起動して反映します。
+
+```sh
+sudo groupadd -f gpio
+sudo usermod -aG gpio,video,audio,dialout "$(id -un)"
 ```
 
 リポジトリルートで、グループとPWMの準備を確認します。

@@ -36,22 +36,61 @@ Physical AI応用編1の最終課題として制作しました。自分を撮�
 
 ## セットアップ
 
-以下はリポジトリのルートで実行します。Python 3.11以上、uv、PlatformIO CLIが必要です。枠なし映像＋音声の録画にはFFmpegとALSAの録音入力を使用します（Debian系では `sudo apt install ffmpeg alsa-utils`）。検証環境ではPi側にGUIは不要です。
+対象は **Raspberry Pi 5・64 bit OS（aarch64）** です。開発環境はDebian 12 / Python 3.11。PWM制御はPi 5のRP1・GPIO18専用のため、Pi 4以前にそのまま移して使うことはできません。同じPi 5でも、カメラ・マイク・ネットワーク・サーボの校正は設置先に合わせます。別の実機での最終動作は未検証です。
+
+### 1. OSのツールとPython環境を用意
 
 ```sh
+sudo apt update
+sudo apt install -y git curl python3 python3-dev python3-venv build-essential ffmpeg alsa-utils v4l-utils
+curl -LsSf https://astral.sh/uv/0.13.6/install.sh | sh
+. "$HOME/.local/bin/env"
+uv tool install --python 3.11 platformio==6.2.0
+```
+
+uvは[公式のインストール方法](https://docs.astral.sh/uv/getting-started/installation/)に従います。既に導入済みなら再インストールは不要です。初回はPythonパッケージとESP32のビルドツールをダウンロードするため、インターネット接続と数GB程度の空き容量が必要です。Pi側のGUIは不要です。
+
+### 2. cloneして依存関係を復元
+
+```sh
+git clone https://github.com/shotalab/pan-camera.git
+cd pan-camera
 uv sync --locked
+uv run --locked python -m pan_camera --list-classes
+```
+
+`.python-version` でPython 3.11を選び、`uv.lock` のバージョンで環境を構築します。モデル `models/yolo26n.pt` もGitに含めているため、別途探す必要はありません。`--list-classes` はモデルを読み込む確認で、カメラやサーボは動かしません。リポジトリのチェックアウトから実行してください。
+
+OpenCVはheadless版に統一し、Ultralyticsの依存から入るGUI版をuvの設定で除外しています。`pip install .` 単体ではこの設定を使えないため、上記の `uv sync --locked` を使用します。既存の仮想環境にGUI版が入っていた場合は、共有ファイルを復元するため `uv sync --locked --reinstall-package opencv-python-headless` を実行してください。
+
+### 3. 配線とデバイスの準備
+
+[ハードウェア手順](docs/hardware.md#pwmの準備)に従って、外部電源・共通GND、GPIO18、PWMオーバーレイ、ユーザー権限を設定します。OS設定後の再起動やグループへの再ログインも必要です。サーボの校正範囲は `config/servo.toml` で確認します。
+
+```sh
+v4l2-ctl --list-devices
+arecord -l
+pio device list
+```
+
+- `config/recording.toml`：`camera_device` をカメラ番号または `/dev/v4l/by-id/…` に、`audio_device` を使用するALSAマイクに合わせる。既定はカメラ0とArducamのCameraカード。マイクを使わない場合は `raw_enabled = false`。
+- `config/network.toml`：`m5stack_ip` を設置先のM5StackのIPへ変更する。初期値は開発環境の値。
+- `config/detection.toml`：標準はコップのみ。人物などを追加する場合は該当項目を有効にする。
+
+### 4. M5Stackへ書き込む
+
+```sh
 cp firmware/m5stack/include/wifi_secrets.example.h firmware/m5stack/include/wifi_secrets.h
 ```
 
-1. [ハードウェア手順](docs/hardware.md)に従って配線し、PWMを準備します。
-2. `wifi_secrets.h` にWi-FiのSSIDとパスワードを設定します。このファイルはGit管理対象外です。
-3. M5Stackを接続し、必要に応じて `platformio.ini` のUSBポートを変更します。
+`wifi_secrets.h` に設置先のSSID・パスワードを設定します。既に設定済みの場合はコピーを省きます。このファイルはGit管理対象外です。
 
 ```sh
-pio run -d firmware/m5stack -t upload
+pio run -d firmware/m5stack -t upload --upload-port /dev/ttyUSB0
+pio device monitor --port /dev/ttyUSB0 --baud 115200
 ```
 
-4. M5StackのIPアドレスを `config/network.toml` に設定します。PiとM5Stackは同じLANに接続します。
+USBポートは `pio device list` の結果に合わせます。モニターを開いてM5Stackをリセットすると `PAN-CAMERA ready: IPアドレス` が出るので、`config/network.toml` に設定します。モニターの終了はCtrl+C。PiとM5Stackを同じLANに接続し、UDP 5005・5006・5007の相互通信を許可します。IPが変わらないようルーターのDHCP予約を利用できます。
 
 ## 起動と操作
 
@@ -116,7 +155,7 @@ firmware/m5stack/         M5Stackファームウェアと書き込み設定
 config/                  検出対象、サーボ校正値、追跡・通信設定
 deploy/                  PWM準備・M5Stack起動管理サービスのテンプレート
 models/                  使用する学習済みモデルと出典情報
-scripts/                 PWM準備・実機可動域確認
+scripts/                 PWM準備・実機可動域確認・動画タイトルの生成
 tests/                   実機を動かさない自動テスト
 docs/                    配線、操作、設計、検証、今後の課題
 outputs/                 録画などの生成物（Git管理対象外）

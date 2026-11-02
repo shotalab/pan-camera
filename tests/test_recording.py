@@ -19,6 +19,22 @@ from pan_camera.recorder import Recorder
 
 
 class TestRecordingLifecycle(unittest.TestCase):
+    def test_camera_device_configuration_accepts_indices_and_device_paths(self):
+        with TemporaryDirectory() as directory:
+            config_dir = Path(directory) / 'config'
+            config_dir.mkdir()
+            path = config_dir / 'recording.toml'
+            with patch('pan_camera.raw_recorder.ROOT', Path(directory)):
+                for value, expected in (('0', 0), ('2', 2), ('"/dev/v4l/by-id/camera"', '/dev/v4l/by-id/camera')):
+                    with self.subTest(value=value):
+                        path.write_text(f'[recording]\ncamera_device = {value}\n')
+                        self.assertEqual(RecordingConfig.load().camera_device, expected)
+                for value in ('-1', 'true', '"camera"'):
+                    with self.subTest(value=value):
+                        path.write_text(f'[recording]\ncamera_device = {value}\n')
+                        with self.assertRaisesRegex(ValueError, 'Invalid recording'):
+                            RecordingConfig.load()
+
     def test_alsa_uses_device_options_for_channels_and_rate(self):
         recorder = RawAVRecorder(RecordingConfig())
         args = recorder._audio_input()

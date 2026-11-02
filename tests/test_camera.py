@@ -11,6 +11,15 @@ from pan_camera.camera import USBCamera169
 
 class TestUSBCamera(unittest.TestCase):
     @patch("pan_camera.camera.cv2.VideoCapture")
+    def test_configured_device_path_is_used(self, capture):
+        frame = Mock()
+        frame.shape = (720, 1280, 3)
+        capture.return_value.read.return_value = (True, frame)
+        with USBCamera169(device="/dev/v4l/by-id/camera-video-index0"):
+            pass
+        capture.assert_called_once_with("/dev/v4l/by-id/camera-video-index0", cv2.CAP_V4L2)
+
+    @patch("pan_camera.camera.cv2.VideoCapture")
     def test_open_failure_releases_capture(self, capture):
         capture.return_value.isOpened.return_value = False
         with self.assertRaisesRegex(RuntimeError, "Camera open failed"):

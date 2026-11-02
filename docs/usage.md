@@ -26,7 +26,7 @@ uv run python -m pan_camera --classes person "cell phone"
 |---|---|
 | `config/detection.toml` | 全80クラスのON/OFF。最低1つを有効にする |
 | `config/network.toml` | M5StackのIP、受信ポート5005、Piの制御ポート5006、起動管理ポート5007 |
-| `config/recording.toml` | 枠なし映像＋音声と画面録画のON/OFF、圧縮方式・画質・CPUスレッド数、解像度、ALSAマイク |
+| `config/recording.toml` | 枠なし映像＋音声と画面録画のON/OFF、圧縮方式・画質・CPUスレッド数、解像度、カメラデバイス、ALSAマイク |
 | `config/servo.toml` | PWM割り当て、校正範囲、速度・加速度上限、実機調整の移動設定 |
 | `config/bytetrack_pan.yaml` | 対象の対応付け、新規ID、見失い後の保持期間 |
 
@@ -115,6 +115,7 @@ encoding_threads = 2
 width = 1280
 height = 720
 camera_fps = 30
+camera_device = 0
 audio_device = "plughw:CARD=Camera,DEV=0"
 audio_rate = 48000
 audio_channels = 1
@@ -126,6 +127,7 @@ audio_channels = 1
 - `video_crf` は18～35、既定26。小さい値ほど高画質・大容量、大きい値ほど低画質・小容量になる。H.264は非可逆圧縮。枠やラベルは加えないが、元JPEGとの画素の完全一致を目的としない。
 - `video_codec = "copy"` では再エンコードせず、MJPEG＋PCMを `_clean.mkv` として保存。圧縮負荷を抑えられる一方、容量は大きくなる。
 - `camera_fps` はカメラへの要求値。取得FPSの保証値ではない。
+- `camera_device` はカメラ番号（既定 `0`）または `/dev/video2`・`/dev/v4l/by-id/...` の文字列。接続順で番号が変わる環境では、`v4l2-ctl --list-devices` と `ls -l /dev/v4l/by-id/` を確認し、映像を提供するデバイスを指定する。
 - `raw_enabled = false` は枠なし映像＋音声を無効にする。認識枠付きAVIと画面再現AVIは引き続き保存する。画面再現AVIも不要なら `display_enabled = false` を指定する。
 - マイクは `arecord -l` で確認したArducamの `Camera` カードを名前で指定する。カード番号が変わっても同じ名前で指定できる。
 - 必要なツール：`ffmpeg`。マイクの確認は `arecord -l`（alsa-utils）。
@@ -175,7 +177,7 @@ PWM停止は位置保持の解除を伴います。実機ではPWM停止時に�
 
 | 症状 | 確認事項 |
 |---|---|
-| `Camera open failed` | USB接続、他プロセスによる使用、`/dev/video0` の存在 |
+| `Camera open failed` | USB接続、他プロセスによる使用、設定したカメラデバイスの存在とvideoグループの権限 |
 | 解像度エラー | カメラが設定した解像度（既定1280×720）のMJPEGを提供するか |
 | `PWM not prepared` | ハードウェアPWM設定と準備スクリプト |
 | `PWM channel already in use` | 別プログラムが有効化していないか。保持状態の管理ファイルを削除していないか |
@@ -188,9 +190,10 @@ PWM停止は位置保持の解除を伴います。実機ではPWM停止時に�
 
 ## 動画用タイトルの書き出し
 
-[SVGアニメーションのプレビュー](video-titles.html)に冒頭タイトル、4種類の章タイトル、エンディングを収録しています。OSのlibrsvg・CairoとFFmpegを利用して、以下で3840×2160・30 FPSのH.264 MP4を書き出します。Pythonの追加パッケージは不要です。
+[SVGアニメーションのプレビュー](video-titles.html)に冒頭タイトル、4種類の章タイトル、エンディングを収録しています。OSのlibrsvg・Cairoと日本語フォント、FFmpegを利用して、以下で3840×2160・30 FPSのH.264 MP4を書き出します。Pythonの追加パッケージは不要です。
 
 ```sh
+sudo apt install librsvg2-2 libcairo2 fonts-noto-cjk
 python scripts/render_video_titles.py
 ```
 

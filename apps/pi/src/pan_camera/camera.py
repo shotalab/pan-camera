@@ -12,14 +12,15 @@ class USBCamera169:
     WIDTH = 1280
     HEIGHT = 720
 
-    def __init__(self, width=1280, height=720, fps=30, raw_callback=None):
+    def __init__(self, width=1280, height=720, fps=30, raw_callback=None, device=0):
         self.width = width
         self.height = height
         self.fps = fps
         self.raw_callback = raw_callback
+        self.device = device
 
     def __enter__(self):
-        self.cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+        self.cap = cv2.VideoCapture(self.device, cv2.CAP_V4L2)
 
         if not self.cap.isOpened():
             self.cap.release()

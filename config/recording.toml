@@ -16,6 +16,9 @@ width = 1280
 height = 720
 camera_fps = 30
 
+# V4L2のカメラ番号、または /dev/video2・/dev/v4l/by-id/... のパス。
+camera_device = 0
+
 # arecord -l で確認したカメラ内蔵マイク。カード番号でなく名前で指定する。
 audio_device = "plughw:CARD=Camera,DEV=0"
 audio_rate = 48000

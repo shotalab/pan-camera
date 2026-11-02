@@ -15,6 +15,11 @@ dependencies = [
     "ultralytics>=8.4.197",
 ]
 
+[tool.uv]
+# Ultralytics requests the GUI distribution; use the headless cv2 provider above.
+# Installing both distributions overwrites the same cv2 files.
+exclude-dependencies = ["opencv-python"]
+
 [tool.uv.sources]
 torch = { index = "pytorch-cpu" }
 torchvision = { index = "pytorch-cpu" }

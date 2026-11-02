@@ -320,6 +320,7 @@ def main():
         with USBCamera169(
             width=recording_config.width, height=recording_config.height,
             fps=recording_config.camera_fps,
+            device=recording_config.camera_device,
             raw_callback=recorder.write_raw if recording_config.raw_enabled else None,
         ) as source, LatestFrameCamera(source) as camera:
             # Do not energize the servo unless capture is actually working.

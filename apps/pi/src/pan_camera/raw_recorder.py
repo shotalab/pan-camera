@@ -27,6 +27,7 @@ class RecordingConfig:
     width: int = 1280
     height: int = 720
     camera_fps: int = 30
+    camera_device: int | str = 0
     audio_device: str = "plughw:CARD=Camera,DEV=0"
     audio_rate: int = 48000
     audio_channels: int = 1
@@ -42,8 +43,14 @@ class RecordingConfig:
     def load(cls):
         with (ROOT / "config/recording.toml").open("rb") as f:
             config = cls(**tomllib.load(f)["recording"])
+        device_valid = (
+            type(config.camera_device) is int and config.camera_device >= 0
+        ) or (
+            isinstance(config.camera_device, str) and config.camera_device.startswith("/dev/")
+        )
         if (type(config.raw_enabled) is not bool
                 or type(config.display_enabled) is not bool
+                or not device_valid
                 or (config.width, config.height) not in ((1280, 720), (1920, 1080))
                 or not 1 <= config.camera_fps <= 30
                 or config.audio_channels not in (1, 2)
